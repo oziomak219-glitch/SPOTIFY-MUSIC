@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spotify Web Player Clone</title>
+  <meta name="description" content="A responsive Spotify web player clone built with vanilla HTML5, CSS3, and modern JavaScript featuring audio streaming, playlists, live search, and dynamic controls.">
+  <meta property="og:title" content="Spotify Web Player Clone">
+  <meta property="og:description" content="A responsive Spotify web player clone built with vanilla HTML5, CSS3, and modern JavaScript featuring audio streaming, playlists, live search, and dynamic controls.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="spotify-app">
+    <!-- BACKDROP OVERLAY FOR MOBILE SIDEBAR DRAWER -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <!-- Sidebar Close Button for Mobile -->
+      <div class="sidebar-mobile-header">
+        <span class="sidebar-mobile-title">Menu</span>
+        <button class="icon-btn-ghost" id="sidebar-close-btn" title="Close Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
+      </div>
+      <!-- Sidebar Top (Logo & Main Navigation) -->
+      <div class="sidebar-top">
+        <a class="brand-logo" id="brand-logo" href="#">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.477 2 2 6.477 2 12c0 5.523 4.477 10 10 10s10-4.477 10-10c0-5.523-4.477-10-10-10zm4.586 14.424c-.18.295-.563.387-.857.207-2.35-1.436-5.308-1.76-8.792-.963-.335.077-.67-.133-.746-.468-.077-.334.132-.67.467-.746 3.808-.87 7.076-.496 9.721 1.113.294.18.387.563.207.857zm1.226-2.724c-.227.37-.714.487-1.084.26-2.69-1.654-6.79-2.133-9.972-1.168-.418.127-.864-.108-.99-.526-.128-.418.107-.864.525-.99 3.633-1.103 8.147-.568 11.26 1.34.37.227.488.714.261 1.084zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71c-.494.15-1.018-.128-1.168-.622-.15-.494.128-1.018.622-1.168 3.532-1.072 9.404-.866 13.115 1.337.445.264.59.838.327 1.282-.264.444-.838.59-1.282.327z"/>
+          </svg>
+          <span>Spotify</span>
+        </a>
+
+        <ul class="nav-list">
+          <li class="nav-item active" id="nav-home">
+            <button id="btn-nav-home" type="button">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.5 3.247a1 1 0 0 0-1 0L4 7.577V20h4.5v-6a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v6H20V7.577l-7.5-4.33zm-2-1.732a3 3 0 0 1 3 0l7.5 4.33A2 2 0 0 1 22 7.577V21a1 1 0 0 1-1 1h-6.5a1 1 0 0 1-1-1v-5h-3v5a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.577a2 2 0 0 1 1-1.732l7.5-4.33z"/>
+              </svg>
+              <span>Home</span>
+            </button>
+          </li>
+          <li class="nav-item" id="nav-search">
+            <button id="btn-nav-search" type="button">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10.533 1.278a9.255 9.255 0 1 0 5.72 16.518l4.974 4.975a1 1 0 0 0 1.414-1.414l-4.975-4.974a9.255 9.255 0 0 0-7.133-15.105zM3.278 10.533a7.255 7.255 0 1 1 14.51 0 7.255 7.255 0 0 1-14.51 0z"/>
+              </svg>
+              <span>Search</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Sidebar Library Section -->
+      <div class="sidebar-library">
+        <div class="library-header">
+          <button class="library-title-btn" id="nav-library" type="button">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3 22a1 1 0 0 1-1-1V3a1 1 0 0 1 2 0v18a1 1 0 0 1-1 1zM15.5 2.134A1 1 0 0 0 14 3v18a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V3a1 1 0 0 0-1.5-.866L15.5 2.134zM8 3a1 1 0 0 0-1 1v16a1 1 0 0 0 2 0V4a1 1 0 0 0-1-1z"/>
+            </svg>
+            <span>Your Library</span>
+          </button>
+          <div class="library-actions">
+            <button class="icon-btn-ghost" id="btn-create-playlist" title="Create playlist or folder">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M11 11V4h2v7h7v2h-7v7h-2v-7H4v-2h7z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="playlist-filter-pills">
+          <button class="pill-tag active">Playlists</button>
+          <button class="pill-tag">Artists</button>
+          <button class="pill-tag">Albums</button>
+        </div>
+
+        <!-- Scrollable Playlists List -->
+        <ul class="playlist-scroll-list" id="playlists-container">
+          <!-- Populated dynamically via JS -->
+        </ul>
+      </div>
+    </aside>
+
+    <!-- MAIN VIEWPORT -->
+    <main class="main-viewport" id="main-viewport">
+      <!-- Sticky Top Bar -->
+      <header class="top-bar" id="top-bar">
+        <div class="top-bar-left">
+          <!-- Main Menu Button -->
+          <div class="menu-btn-container">
+            <button class="menu-btn" id="btn-menu-toggle" title="Main Menu" aria-label="Open menu" aria-haspopup="true" aria-expanded="false">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+              </svg>
+            </button>
+
+            <!-- Menu Dropdown -->
+            <div class="menu-dropdown" id="menu-dropdown" role="menu">
+              <div class="menu-dropdown-header">
+                <div class="menu-user-badge">
+                  <div class="menu-avatar">AM</div>
+                  <div class="menu-user-meta">
+                    <span class="menu-user-name">Alex Miller</span>
+                    <span class="menu-user-plan">Spotify Premium</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="menu-divider"></div>
+
+              <div class="menu-section-label">Navigation</div>
+              <button class="menu-item" id="menu-item-home" role="menuitem">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                <span>Home</span>
+              </button>
+              <button class="menu-item" id="menu-item-search" role="menuitem">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+                <span>Search</span>
+              </button>
+              <button class="menu-item" id="menu-item-library" role="menuitem">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/>
+                </svg>
+                <span>Your Library</span>
+              </button>
+              <button class="menu-item" id="menu-item-liked" role="menuitem">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+                <span>Liked Songs</span>
+              </button>
+
+              <div class="menu-divider"></div>
+
+              <div class="menu-section-label">Actions & Features</div>
+              <button class="menu-item" id="menu-item-create-pl" role="menuitem">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                </svg>
+                <span>Create Playlist</span>
+              </button>
+              <button class="menu-item" id="menu-item-queue" role="menuitem">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M15 6H3v2h12V6zm0 4H3v2h12v-2zM3 16h8v-2H3v2zM17 6v8.18c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V8h3V6h-5z"/>
+                </svg>
+                <span>Play Queue</span>
+              </button>
+              <button class="menu-item" id="menu-item-shortcuts" role="menuitem">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-1 2H5v-2h2v2zm0-3H5V8h2v2zm9 7H8v-2h8v2zm0-4h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z"/>
+                </svg>
+                <span>Keyboard Shortcuts</span>
+              </button>
+              <button class="menu-item" id="menu-item-settings" role="menuitem">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                </svg>
+                <span>Settings & Audio</span>
+              </button>
+
+              <div class="menu-divider"></div>
+              <button class="menu-item menu-danger" id="menu-item-logout" role="menuitem">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                </svg>
+                <span>Log out</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="nav-history-btns">
+            <button class="history-btn" id="history-back-btn" title="Go back">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+              </svg>
+            </button>
+            <button class="history-btn" id="history-forward-btn" title="Go forward">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Dynamic Search Input in Header -->
+          <div class="search-container" id="search-container">
+            <div class="search-input-wrapper">
+              <svg class="search-icon-inside" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10.533 1.278a9.255 9.255 0 1 0 5.72 16.518l4.974 4.975a1 1 0 0 0 1.414-1.414l-4.975-4.974a9.255 9.255 0 0 0-7.133-15.105zM3.278 10.533a7.255 7.255 0 1 1 14.51 0 7.255 7.255 0 0 1-14.51 0z"/>
+              </svg>
+              <input type="text" class="search-input" id="header-search-input" placeholder="What do you want to play?" autocomplete="off">
+              <button class="search-clear-btn" id="search-clear-btn" title="Clear search">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="top-bar-right">
+          <button class="upgrade-btn" id="upgrade-btn">Explore Premium</button>
+          <button class="install-app-btn" id="install-app-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14.59V8h-2v8.59l-3.29-3.3-1.42 1.42L12 20.41l5.71-5.7-1.42-1.42z"/>
+            </svg>
+            <span>Install App</span>
+          </button>
+          <button class="profile-btn" id="profile-btn" title="Alex M.">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80" alt="Alex Profile">
+          </button>
+        </div>
+      </header>
+
+      <!-- VIEW 1: HOME VIEW -->
+      <section class="content-wrapper" id="home-view">
+        <!-- Greeting & Quick Jump 6-Card Grid -->
+        <div class="greeting-section">
+          <h1 class="greeting-title" id="greeting-text">Good evening</h1>
+          <div class="quick-jump-grid" id="quick-jump-grid">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+        <!-- Shelf 1: Recently Played -->
+        <section class="shelf-section">
+          <div class="shelf-header">
+            <h2 class="shelf-title">Recently Played</h2>
+            <span class="shelf-see-all">Show all</span>
+          </div>
+          <div class="cards-grid" id="recently-played-grid">
+            <!-- Populated via JS -->
+          </div>
+        </section>
+
+        <!-- Shelf 2: Made For You -->
+        <section class="shelf-section">
+          <div class="shelf-header">
+            <h2 class="shelf-title">Made For You</h2>
+            <span class="shelf-see-all">Show all</span>
+          </div>
+          <div class="cards-grid" id="made-for-you-grid">
+            <!-- Populated via JS -->
+          </div>
+        </section>
+
+        <!-- Shelf 3: Top Charts & Trending -->
+        <section class="shelf-section">
+          <div class="shelf-header">
+            <h2 class="shelf-title">Top Charts & Trending</h2>
+            <span class="shelf-see-all">Show all</span>
+          </div>
+          <div class="cards-grid" id="top-charts-grid">
+            <!-- Populated via JS -->
+          </div>
+        </section>
+      </section>
+
+      <!-- VIEW 2: SEARCH VIEW -->
+      <section class="content-wrapper" id="search-view" style="display: none;">
+        <!-- Live Search Results (When querying) -->
+        <div class="search-results-section" id="search-results-section">
+          <div class="search-top-result-container">
+            <div>
+              <h2 class="shelf-title" style="margin-bottom: 16px;">Top result</h2>
+              <div class="top-result-card" id="search-top-result">
+                <!-- Top result rendered by JS -->
+              </div>
+            </div>
+            <div>
+              <h2 class="shelf-title" style="margin-bottom: 16px;">Songs</h2>
+              <div class="search-songs-list" id="search-songs-list">
+                <!-- Song list rendered by JS -->
+              </div>
+            </div>
+          </div>
+          <div class="search-empty-state" id="search-empty-state" style="display: none;">
+            <h3>No results found</h3>
+            <p>Please make sure your words are spelled correctly or use fewer keywords.</p>
+          </div>
+        </div>
+
+        <!-- Browse Genres (When search query is empty) -->
+        <div id="browse-genres-section">
+          <h2 class="shelf-title" style="margin-bottom: 20px;">Browse all</h2>
+          <div class="browse-genres-grid" id="genres-grid">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FIXED BOTTOM PLAYER BAR -->
+    <footer class="player-bar" id="player-bar">
+      <!-- Player Left: Track Cover & Meta -->
+      <div class="player-left">
+        <div class="current-cover-container">
+          <img class="current-cover-img" id="player-cover-img" src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300" alt="Current Track">
+        </div>
+        <div class="current-track-meta">
+          <span class="current-track-title" id="player-track-title">Midnight City Lights</span>
+          <span class="current-track-artist" id="player-track-artist">Neon Skyline</span>
+        </div>
+        <button class="like-track-btn" id="player-like-btn" title="Save to Your Library">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Player Center: Playback Controls & Scrubber -->
+      <div class="player-center">
+        <div class="player-controls">
+          <button class="control-btn" id="btn-shuffle" title="Enable Shuffle">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/>
+            </svg>
+          </button>
+          <button class="control-btn" id="btn-prev" title="Previous">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+            </svg>
+          </button>
+          <button class="play-pause-btn" id="btn-play-pause" title="Play">
+            <svg id="play-icon-svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            <svg id="pause-icon-svg" style="display: none;" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+            </svg>
+          </button>
+          <button class="control-btn" id="btn-next" title="Next">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+            </svg>
+          </button>
+          <button class="control-btn" id="btn-repeat" title="Enable Repeat">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="playback-bar">
+          <span class="time-label" id="time-current">0:00</span>
+          <div class="slider-container" id="seek-slider-container">
+            <input type="range" class="custom-slider" id="seek-slider" min="0" max="100" step="0.1" value="0">
+          </div>
+          <span class="time-label" id="time-duration">6:12</span>
+        </div>
+      </div>
+
+      <!-- Player Right: Queue & Volume Controls -->
+      <div class="player-right">
+        <button class="control-btn" id="btn-queue" title="Queue">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M15 6H3v2h12V6zm0 4H3v2h12v-2zM3 16h8v-2H3v2zM17 6v8.18c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V8h3V6h-5z"/>
+          </svg>
+        </button>
+        
+        <div class="volume-bar-wrapper">
+          <button class="volume-btn" id="btn-volume" title="Mute/Unmute">
+            <svg id="volume-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+            </svg>
+          </button>
+          <div class="slider-container">
+            <input type="range" class="custom-slider" id="volume-slider" min="0" max="100" step="1" value="80">
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- QUEUE DRAWER PANEL -->
+    <div class="queue-panel" id="queue-panel">
+      <div class="queue-header">
+        <h4>Play Queue</h4>
+        <button class="icon-btn-ghost" id="queue-close-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="queue-list" id="queue-list">
+        <!-- Populated via JS -->
+      </div>
+    </div>
+
+    <!-- CREATE PLAYLIST MODAL -->
+    <div class="modal-overlay" id="create-playlist-modal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>Create playlist</h3>
+          <button class="icon-btn-ghost" id="modal-cancel-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="modal-input-group">
+            <label for="modal-playlist-name">Playlist name</label>
+            <input type="text" class="modal-input" id="modal-playlist-name" placeholder="My Playlist #1">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" id="modal-close-btn">Cancel</button>
+          <button class="btn-primary" id="modal-create-btn">Create</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- KEYBOARD SHORTCUTS MODAL -->
+    <div class="modal-overlay" id="shortcuts-modal">
+      <div class="modal-card modal-wide">
+        <div class="modal-header">
+          <h3>Keyboard Shortcuts</h3>
+          <button class="icon-btn-ghost" id="shortcuts-close-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="shortcuts-grid">
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Play / Pause</span>
+              <kbd class="shortcut-key">Space</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Next Track</span>
+              <kbd class="shortcut-key">N</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Previous Track</span>
+              <kbd class="shortcut-key">P</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Mute / Unmute</span>
+              <kbd class="shortcut-key">M</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Toggle Shuffle</span>
+              <kbd class="shortcut-key">S</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Toggle Repeat</span>
+              <kbd class="shortcut-key">R</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Focus Search</span>
+              <kbd class="shortcut-key">/</kbd>
+            </div>
+            <div class="shortcut-row">
+              <span class="shortcut-desc">Volume Up / Down</span>
+              <kbd class="shortcut-key">↑ / ↓</kbd>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-primary" id="shortcuts-ok-btn">Got it</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS & AUDIO MODAL -->
+    <div class="modal-overlay" id="settings-modal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>Playback Settings</h3>
+          <button class="icon-btn-ghost" id="settings-close-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="setting-item">
+            <div>
+              <div class="setting-title">Audio Streaming Quality</div>
+              <div class="setting-sub">High Fidelity (320kbps MP3 / AAC)</div>
+            </div>
+            <span class="badge-tag">Very High</span>
+          </div>
+          <div class="setting-item">
+            <div>
+              <div class="setting-title">Autoplay similar songs</div>
+              <div class="setting-sub">Keep music playing when queue finishes</div>
+            </div>
+            <label class="switch-toggle">
+              <input type="checkbox" id="setting-autoplay" checked>
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+          <div class="setting-item">
+            <div>
+              <div class="setting-title">Normalize volume</div>
+              <div class="setting-sub">Set the same volume level for all tracks</div>
+            </div>
+            <label class="switch-toggle">
+              <input type="checkbox" id="setting-normalize" checked>
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+          <div class="setting-item">
+            <div>
+              <div class="setting-title">Equalizer Preset</div>
+              <div class="setting-sub">Acoustic clarity & dynamic bass boost</div>
+            </div>
+            <span class="badge-tag">Bass Boost</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-primary" id="settings-save-btn">Save Preferences</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FLOATING TOAST NOTIFICATION -->
+    <div class="toast-container" id="toast-notification">
+      <span id="toast-message">Added to your Liked Songs</span>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

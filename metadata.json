@@ -1,0 +1,6 @@
+{
+  "name": "Spotify Web Player Clone",
+  "description": "A responsive Spotify web player clone built with vanilla HTML5, CSS3, and modern JavaScript featuring audio streaming, playlists, live search, and dynamic controls.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
